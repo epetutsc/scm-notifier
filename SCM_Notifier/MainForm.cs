@@ -863,16 +863,16 @@ namespace pocorall.SCM_Notifier
 				if ((lastStableVersion > AboutForm.Version) ||
 					((lastStableVersion == AboutForm.Version) && (AboutForm.VersionStatus != "")))	// if alpha/beta version
 				{
-					SafeInvoke (new MethodInvoker (ShowNewVersion), null, Int32.MaxValue);
+					SafeInvoke (new MethodInvoker (ShowNewVersion), null, int.MaxValue);
 				}
 				else if (forceShowResult)
 				{
-					SafeInvoke (new MethodInvoker (ShowNoNewVersion), null, Int32.MaxValue);
+					SafeInvoke (new MethodInvoker (ShowNoNewVersion), null, int.MaxValue);
 				}
 			}
 			else if (forceShowResult)
 			{
-				SafeInvoke (new MethodInvoker (ErrorCheckingForNewVersion), null, Int32.MaxValue);
+				SafeInvoke (new MethodInvoker (ErrorCheckingForNewVersion), null, int.MaxValue);
 			}
 		}
 
@@ -1020,7 +1020,7 @@ namespace pocorall.SCM_Notifier
 							if (sfp.process.HasExited)
 							{
 								if (sfp.isUpdateCommand && sfp.updateError)
-									SafeInvoke (new ShowUpdateErrorsMethod (ShowUpdateErrors), new object[] {sfp}, Int32.MaxValue);
+									SafeInvoke (new ShowUpdateErrorsMethod (ShowUpdateErrors), new object[] {sfp}, int.MaxValue);
 
 								UpdateFolderStatus (sfp.repository);
                                 ScmRepository.svnFolderProcesses.RemoveAt(i--);
@@ -1325,7 +1325,7 @@ namespace pocorall.SCM_Notifier
 
 					firstBalloonPath = nonUpdatedFolders[0];
 
-					string balloonMessage = String.Join (Environment.NewLine, nonUpdatedFolders);
+					string balloonMessage = string.Join (Environment.NewLine, nonUpdatedFolders);
 					notifyIcon.ShowBalloonTip (Config.ShowBalloonInterval, "Update needed", balloonMessage, ToolTipIcon.Info);
 				}
 			}

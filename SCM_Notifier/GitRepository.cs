@@ -77,26 +77,26 @@ namespace pocorall.SCM_Notifier
         public override void OpenLogWindow()
         {
             if (Config.GitUIPath == null || !File.Exists(Config.GitUIPath)) return;
-            string arguments = String.Format("/command:log /path:\"{0}\"", Path);
+            string arguments = string.Format("/command:log /path:\"{0}\"", Path);
             if (this.IsGitExtensions(Config.GitUIPath))
-                arguments = String.Format("browse {0}", Path);
+                arguments = string.Format("browse {0}", Path);
             ExecuteProcess(Config.GitUIPath, null, arguments, false, false);
         }
 
         public void OpenFetchWindow()
         {
             if (Config.GitUIPath == null || !File.Exists(Config.GitUIPath)) return;
-            string arguments = String.Format("/command:fetch /path:\"{0}\"", Path);
+            string arguments = string.Format("/command:fetch /path:\"{0}\"", Path);
             if (this.IsGitExtensions(Config.GitUIPath))
-                arguments = String.Format("browse {0}", Path);
+                arguments = string.Format("browse {0}", Path);
             ExecuteProcess(Config.GitUIPath, null, arguments, false, false);
         }
 
         public override async Task UpdateAsync(bool updateAll)
         {
-            string arguments = String.Format("/command:pull /path:\"{0}\" /notempfile", Path);
+            string arguments = string.Format("/command:pull /path:\"{0}\" /notempfile", Path);
             if (this.IsGitExtensions(Config.GitUIPath))
-                arguments = String.Format("pull {0}", Path);
+                arguments = string.Format("pull {0}", Path);
 
             ExecuteResult er = await ExecuteProcessAsync(Config.GitUIPath, Path, arguments, true, false);
             string d = ( er.processOutput);
@@ -119,21 +119,21 @@ namespace pocorall.SCM_Notifier
 
         public override void Commit()
         {
-            string arguments = String.Format("status -u \"{0}\"", Path);
+            string arguments = string.Format("status -u \"{0}\"", Path);
             ExecuteResult er = ExecuteProcess(Config.GitPath, Path, arguments, true, true);
             if (!isModified(er.processOutput))
             {
                 if (this.IsGitExtensions(Config.GitUIPath))
-                    arguments = String.Format("push {0}", Path);
+                    arguments = string.Format("push {0}", Path);
                 else
-                    arguments = String.Format("/command:push /path:\"{0}\" /notempfile", Path);
+                    arguments = string.Format("/command:push /path:\"{0}\" /notempfile", Path);
             }
             else
             {
                 if (this.IsGitExtensions(Config.GitUIPath))
-                    arguments = String.Format("commit {0}", Path);
+                    arguments = string.Format("commit {0}", Path);
                 else 
-                    arguments = String.Format("/command:commit /path:\"{0}\" /notempfile", Path);
+                    arguments = string.Format("/command:commit /path:\"{0}\" /notempfile", Path);
             }
             er = ExecuteProcess(Config.GitUIPath, null, arguments, false, false);
             svnFolderProcesses.Add(new ScmRepositoryProcess(this, er.process, false));
@@ -158,7 +158,7 @@ namespace pocorall.SCM_Notifier
 
                 bool needUpdate = this.IsNeedUpdate(er.processError);
 
-                string arguments = String.Format("status -u \"{0}\"", path);
+                string arguments = string.Format("status -u \"{0}\"", path);
                 er = ExecuteProcess(Config.GitPath, path, arguments, true, true);
 
                 if (er.processOutput.Contains("have diverged"))
@@ -212,7 +212,7 @@ namespace pocorall.SCM_Notifier
                     return;
 
             updateRevision = GetRepositoryCommitedRevision();
-            string arguments = String.Format("update --non-interactive \"{0}\"", Path);
+            string arguments = string.Format("update --non-interactive \"{0}\"", Path);
             ExecuteResult er = ExecuteProcess(Config.GitPath, null, arguments, false, false);
             Config.WriteLog("Svn", arguments);
             svnFolderProcesses.Add(new ScmRepositoryProcess(this, er.process, true));

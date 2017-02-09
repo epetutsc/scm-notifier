@@ -133,11 +133,11 @@ namespace pocorall.SCM_Notifier
             if("Git".Equals(p[0])) {
                 f = (new GitRepository(p[1]));
             } else {
-                f = (new SvnRepository(p[1], (PathType)Int32.Parse(p[5])));
+                f = (new SvnRepository(p[1], (PathType)int.Parse(p[5])));
             }
-            f.ActiveStatusUpdateInterval = Int32.Parse(p[2]);
-      		f.IdleStatusUpdateInterval = Int32.Parse (p[3]);
-      		f.Disable = Boolean.Parse (p[4]);
+            f.ActiveStatusUpdateInterval = int.Parse(p[2]);
+      		f.IdleStatusUpdateInterval = int.Parse (p[3]);
+      		f.Disable = bool.Parse (p[4]);
 			return f;
 		}
 
@@ -244,14 +244,14 @@ namespace pocorall.SCM_Notifier
                 while ((line = er.process.StandardOutput.ReadLine()) != null)
                     lines.Add(line);
 
-                er.processOutput = String.Join("\n", (string[])lines.ToArray(typeof(string)));
+                er.processOutput = string.Join("\n", (string[])lines.ToArray(typeof(string)));
                 lines.Clear();
 
                 // Read error stream
                 while ((line = er.process.StandardError.ReadLine()) != null)
                     lines.Add(line);
 
-                er.processError = String.Join("\n", (string[])lines.ToArray(typeof(string)));
+                er.processError = string.Join("\n", (string[])lines.ToArray(typeof(string)));
                 lines.Clear();
 
                 er.process.WaitForExit();
@@ -318,14 +318,14 @@ namespace pocorall.SCM_Notifier
                 while ((line = await er.process.StandardOutput.ReadLineAsync()) != null)
                     lines.Add(line);
 
-                er.processOutput = String.Join("\n", (string[])lines.ToArray(typeof(string)));
+                er.processOutput = string.Join("\n", (string[])lines.ToArray(typeof(string)));
                 lines.Clear();
 
                 // Read error stream
                 while ((line = await er.process.StandardError.ReadLineAsync()) != null)
                     lines.Add(line);
 
-                er.processError = String.Join("\n", (string[])lines.ToArray(typeof(string)));
+                er.processError = string.Join("\n", (string[])lines.ToArray(typeof(string)));
                 lines.Clear();
 
                 await Task.Run(() => er.process.WaitForExit());
@@ -363,7 +363,7 @@ namespace pocorall.SCM_Notifier
         // void int GetRepositoryRevisions (string path, out int headRevision, out int committedRevision)
         protected static int GetRepositoryRevision(string binaryPath, string path, string arg)
         {
-            string arguments = String.Format("info --non-interactive --xml \"{0}\" -r {1}", path, arg);
+            string arguments = string.Format("info --non-interactive --xml \"{0}\" -r {1}", path, arg);
             ExecuteResult er = ExecuteProcess(binaryPath, path, arguments, true, false);
 
             try

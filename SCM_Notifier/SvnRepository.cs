@@ -55,27 +55,27 @@ namespace pocorall.SCM_Notifier
                 reviewedRevision = GetRepositoryHeadRevision();
                 updateRevision = GetRepositoryCommitedRevision();
             }
-            string arguments = String.Format("/command:log /path:\"{0}\" /revend:{1}", Path, updateRevision);
+            string arguments = string.Format("/command:log /path:\"{0}\" /revend:{1}", Path, updateRevision);
             ExecuteProcess(Config.TortoiseSvnPath, null, arguments, false, false);
         }
 
 
         public override void OpenLogWindow()
         {
-            string arguments = String.Format("/command:log /path:\"{0}\"", Path);
+            string arguments = string.Format("/command:log /path:\"{0}\"", Path);
             ExecuteProcess(Config.TortoiseSvnPath, null, arguments, false, false);
         }
 
         public override Task UpdateAsync(bool updateAll)
         {
             string revision = Config.ChangeLogBeforeUpdate && !updateAll ? " /rev:" + reviewedRevision : "";
-            string arguments = String.Format("/command:update /path:\"{0}\"{1} /notempfile /closeonend:{2}", Path, revision, Config.UpdateWindowAction);
+            string arguments = string.Format("/command:update /path:\"{0}\"{1} /notempfile /closeonend:{2}", Path, revision, Config.UpdateWindowAction);
             return ExecuteProcessAsync(Config.TortoiseSvnPath, null, arguments, true, false);
         }
 
         public override void Commit()
         {
-            string arguments = String.Format("/command:commit /path:\"{0}\" /notempfile", Path);
+            string arguments = string.Format("/command:commit /path:\"{0}\" /notempfile", Path);
             ExecuteResult er = ExecuteProcess(Config.TortoiseSvnPath, null, arguments, false, false);
             svnFolderProcesses.Add(new ScmRepositoryProcess(this, er.process, false));
         }
@@ -90,7 +90,7 @@ namespace pocorall.SCM_Notifier
 
             try
             {
-                string arguments = String.Format("status -u --non-interactive --xml \"{0}\"", Path);
+                string arguments = string.Format("status -u --non-interactive --xml \"{0}\"", Path);
                 ExecuteResult er = ExecuteProcess(Config.SvnPath, Path, arguments, true, true);
 
                 SvnXml.Create(er.processOutput);		// Because SVN may return non-valid XML in some cases?
@@ -140,7 +140,7 @@ namespace pocorall.SCM_Notifier
                     return;
 
             updateRevision = GetRepositoryCommitedRevision();
-            string arguments = String.Format("update --non-interactive \"{0}\"", Path);
+            string arguments = string.Format("update --non-interactive \"{0}\"", Path);
             ExecuteResult er = ExecuteProcess(Config.SvnPath, null, arguments, false, false);
             Config.WriteLog("Svn", arguments);
             svnFolderProcesses.Add(new ScmRepositoryProcess(this, er.process, true));

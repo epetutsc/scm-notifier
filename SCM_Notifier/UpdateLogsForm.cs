@@ -167,7 +167,7 @@ namespace pocorall.SCM_Notifier
 		#endregion
 
 		[DllImport("winmm.dll", EntryPoint="PlaySound", CharSet=CharSet.Auto)]
-		private static extern int PlaySound (String pszSound, int hmod, int falgs);
+		private static extern int PlaySound (string pszSound, int hmod, int falgs);
 
 
 		/// <summary>
