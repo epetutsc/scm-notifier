@@ -511,7 +511,7 @@ namespace pocorall.SCM_Notifier
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(343, 16);
             this.label23.TabIndex = 22;
-            this.label23.Text = "Path to GitExtension.exe or TortoiseGitProc.exe of TortoiseGit:";
+            this.label23.Text = "Path to TortoiseGitProc.exe of TortoiseGit:";
             this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label24
