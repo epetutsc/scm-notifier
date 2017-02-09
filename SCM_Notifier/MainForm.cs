@@ -238,10 +238,10 @@ namespace pocorall.SCM_Notifier
 		}
 
 
-		private void menuItemUpdateAll_Click (object sender, EventArgs e)
+		private async void menuItemUpdateAll_Click (object sender, EventArgs e)
 		{
 			WindowState = FormWindowState.Minimized;
-			UpdateAll();
+			await UpdateAll();
 		}
 
         private void AddFolder(string path)
@@ -355,9 +355,9 @@ namespace pocorall.SCM_Notifier
 
 		#region Toolbar button handlers
 
-		private void btnUpdate_Click (object sender, EventArgs e)
+		private async void btnUpdate_Click (object sender, EventArgs e)
 		{
-			UpdateFolder();
+			await UpdateFolder();
 		}
 
 
@@ -408,9 +408,9 @@ namespace pocorall.SCM_Notifier
 		}
 
 
-		private void updateToolStripMenuItem_Click (object sender, EventArgs e)
+		private async void updateToolStripMenuItem_Click (object sender, EventArgs e)
 		{
-			UpdateFolder();
+			await UpdateFolder();
 		}
 
 
@@ -576,9 +576,9 @@ namespace pocorall.SCM_Notifier
 			Application.Exit();
 		}
 
-		private void menuItem_UpdateAll_Click (object sender, EventArgs e)
+		private async void menuItem_UpdateAll_Click (object sender, EventArgs e)
 		{
-			UpdateAll();
+			await UpdateAll();
 		}
 
 		#endregion
@@ -666,7 +666,7 @@ namespace pocorall.SCM_Notifier
 		}
 
 
-		private void listViewFolders_DoubleClick(object sender, EventArgs e)
+		private async void listViewFolders_DoubleClick(object sender, EventArgs e)
 		{
 			switch (Config.ItemDoubleClickAction)
 			{
@@ -689,7 +689,7 @@ namespace pocorall.SCM_Notifier
 
 				case Config.Action.updateAction:
 					if (btnUpdate.Enabled)
-						UpdateFolder();
+						await UpdateFolder();
 					break;
 
 				case Config.Action.commitAction:

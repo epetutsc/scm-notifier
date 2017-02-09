@@ -25,6 +25,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace pocorall.SCM_Notifier
@@ -65,14 +66,11 @@ namespace pocorall.SCM_Notifier
             ExecuteProcess(Config.TortoiseSvnPath, null, arguments, false, false);
         }
 
-        /// <summary>
-        /// This method waits until updating will finish
-        /// </summary>
-        public override void Update(bool updateAll)
+        public override Task UpdateAsync(bool updateAll)
         {
             string revision = Config.ChangeLogBeforeUpdate && !updateAll ? " /rev:" + reviewedRevision : "";
             string arguments = String.Format("/command:update /path:\"{0}\"{1} /notempfile /closeonend:{2}", Path, revision, Config.UpdateWindowAction);
-            ExecuteProcess(Config.TortoiseSvnPath, null, arguments, true, false);
+            return ExecuteProcessAsync(Config.TortoiseSvnPath, null, arguments, true, false);
         }
 
         public override void Commit()

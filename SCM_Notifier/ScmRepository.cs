@@ -30,6 +30,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace pocorall.SCM_Notifier
@@ -277,6 +278,80 @@ namespace pocorall.SCM_Notifier
             return er;
         }
 
+        protected static async Task<ExecuteResult> ExecuteProcessAsync(string executionFile, string workingPath, string arguments, bool waitForExit, bool lowPriority)
+        {
+            SetEnvironmentVariable();
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = executionFile,
+                Arguments = arguments,
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                StandardOutputEncoding = Encoding.ASCII,
+                WorkingDirectory = workingPath
+            };
+
+            ExecuteResult er = new ExecuteResult();
+            er.process = Process.Start(psi);
+
+            if (waitForExit) backgroundProcess = er.process;
+
+            if (lowPriority)
+            {
+                try
+                {
+                    er.process.PriorityClass = ProcessPriorityClass.Idle;
+                }
+                catch	// Exception may occur if process finishing or already finished
+                {
+                }
+            }
+
+            if (waitForExit)
+            {
+                ArrayList lines = new ArrayList();
+                string line;
+
+                // Read output stream
+                while ((line = await er.process.StandardOutput.ReadLineAsync()) != null)
+                    lines.Add(line);
+
+                er.processOutput = String.Join("\n", (string[])lines.ToArray(typeof(string)));
+                lines.Clear();
+
+                // Read error stream
+                while ((line = await er.process.StandardError.ReadLineAsync()) != null)
+                    lines.Add(line);
+
+                er.processError = String.Join("\n", (string[])lines.ToArray(typeof(string)));
+                lines.Clear();
+
+                await Task.Run(() => er.process.WaitForExit());
+
+                if (er.process.ExitCode != 0 && er.processError.Length > 0)
+                    OnErrorAdded(workingPath, er.processError);
+
+                if ((uint)er.process.ExitCode == 0xc0000142)		// STATUS_DLL_INIT_FAILED - Occurs when Windows shutdown in progress
+                {
+                    Application.Exit();
+
+                    if (Thread.CurrentThread == MainForm.statusThread)
+                        Thread.CurrentThread.Abort();
+                }
+
+                backgroundProcess = null;
+            }
+            else
+            {
+                er.processOutput = "";
+                er.processError = "";
+            }
+
+            return er;
+        }
+
         private static void SetEnvironmentVariable()
         {
             Environment.SetEnvironmentVariable(
@@ -311,7 +386,7 @@ namespace pocorall.SCM_Notifier
 
         abstract public void OpenLogWindow();
 
-        abstract public void Update(bool updateAll);
+        abstract public Task UpdateAsync(bool updateAll);
 
         abstract public void Commit();
 

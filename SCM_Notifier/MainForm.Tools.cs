@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace pocorall.SCM_Notifier
@@ -50,7 +51,7 @@ namespace pocorall.SCM_Notifier
 
 		//////////////////////////////////////////////////////////////////////////////
 
-		private void UpdateFolder()
+		private async Task UpdateFolder()
 		{
 			if (listViewFolders.SelectedIndices.Count == 0)
 				return;
@@ -76,7 +77,7 @@ namespace pocorall.SCM_Notifier
 			updateNotInProgress.Reset ();
 			BeginUpdateFolderStatuses ();
 
-            folder.Update(false);
+            await folder.UpdateAsync(false);
 
 			forcedFolders.Enqueue (folder);
 
@@ -94,7 +95,7 @@ namespace pocorall.SCM_Notifier
 		}
 
 
-		private void UpdateAll()
+		private async Task UpdateAll()
 		{
 			newNonUpdatedFolders.Clear ();
 			statusStrip.Items[0].Text = "Updating all...";
@@ -115,7 +116,7 @@ namespace pocorall.SCM_Notifier
 					else
 					{
 						updateNotInProgress.Reset ();
-                        folder.Update(true);
+                        await folder.UpdateAsync(true);
 						forcedFolders.Enqueue (folder);
 						updateNotInProgress.Set ();
 					}

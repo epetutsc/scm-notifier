@@ -25,6 +25,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace pocorall.SCM_Notifier
@@ -91,16 +92,13 @@ namespace pocorall.SCM_Notifier
             ExecuteProcess(Config.GitUIPath, null, arguments, false, false);
         }
 
-        /// <summary>
-        /// This method waits until updating will finish
-        /// </summary>
-        public override void Update(bool updateAll)
+        public override async Task UpdateAsync(bool updateAll)
         {
             string arguments = String.Format("/command:pull /path:\"{0}\" /notempfile", Path);
             if (this.IsGitExtensions(Config.GitUIPath))
                 arguments = String.Format("pull {0}", Path);
 
-            ExecuteResult er = ExecuteProcess(Config.GitUIPath, Path, arguments, true, false);
+            ExecuteResult er = await ExecuteProcessAsync(Config.GitUIPath, Path, arguments, true, false);
             string d = ( er.processOutput);
         }
 
