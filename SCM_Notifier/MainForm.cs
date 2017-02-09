@@ -485,14 +485,13 @@ namespace pocorall.SCM_Notifier
 
 		private void UpdateContextMenuItem()
 		{
-			checkNowToolStripMenuItem.Enabled =
-				commitToolStripMenuItem.Enabled =
-				updateToolStripMenuItem.Enabled =
-				openToolStripMenuItem.Enabled =
-				changeLogToolStripMenuItem.Enabled =
-				logToolStripMenuItem.Enabled =
-				fetchToolStripMenuItem.Enabled =
-				propertiesToolStripMenuItem.Enabled = false;
+			//checkNowToolStripMenuItem.Enabled =
+			//	commitToolStripMenuItem.Enabled =
+			//	openToolStripMenuItem.Enabled =
+			//	changeLogToolStripMenuItem.Enabled =
+			//	logToolStripMenuItem.Enabled =
+			//	fetchToolStripMenuItem.Enabled =
+			//	propertiesToolStripMenuItem.Enabled = false;
 
 			if (listViewFolders.SelectedIndices.Count == 0) return;
 
@@ -1274,8 +1273,8 @@ namespace pocorall.SCM_Notifier
 			}
 			else
 			{
-				updateAllToolStripMenuItem.Enabled = false;
-				menuItem_UpdateAll.Enabled = false;
+				//updateAllToolStripMenuItem.Enabled = false;
+				//menuItem_UpdateAll.Enabled = false;
 			}
 
 			if (newNonUpdatedFoldersChanged)

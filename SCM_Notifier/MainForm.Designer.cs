@@ -278,7 +278,7 @@ namespace pocorall.SCM_Notifier
             // 
             // updateAllToolStripMenuItem
             // 
-            this.updateAllToolStripMenuItem.Enabled = false;
+            this.updateAllToolStripMenuItem.Enabled = true;
             this.updateAllToolStripMenuItem.Name = "updateAllToolStripMenuItem";
             this.updateAllToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.updateAllToolStripMenuItem.Text = "&Update All";

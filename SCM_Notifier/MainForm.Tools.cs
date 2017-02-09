@@ -65,7 +65,7 @@ namespace pocorall.SCM_Notifier
 				return;
 			}
 
-			btnUpdate.Enabled = updateToolStripMenuItem.Enabled = checkNowToolStripMenuItem.Enabled = false;
+			//btnUpdate.Enabled = updateToolStripMenuItem.Enabled = checkNowToolStripMenuItem.Enabled = false;
 			folder.Status = ScmRepositoryStatus.Unknown;
             listViewFolders.Items[selectedIndex].ImageKey = folder.IconName;
 			newNonUpdatedFolders.Clear ();
@@ -103,7 +103,7 @@ namespace pocorall.SCM_Notifier
 
 			BeginUpdateFolderStatuses();
 
-			btnUpdate.Enabled = updateToolStripMenuItem.Enabled = checkNowToolStripMenuItem.Enabled = menuItem_UpdateAll.Enabled = false;
+			//btnUpdate.Enabled = updateToolStripMenuItem.Enabled = checkNowToolStripMenuItem.Enabled = menuItem_UpdateAll.Enabled = false;
 
 			foreach (ScmRepository folder in folders)
 				if ((folder.Status == ScmRepositoryStatus.NeedUpdate) || (folder.Status == ScmRepositoryStatus.NeedUpdate_Modified))
