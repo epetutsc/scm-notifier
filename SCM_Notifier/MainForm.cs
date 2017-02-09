@@ -592,39 +592,9 @@ namespace pocorall.SCM_Notifier
 			if (listViewFolders.SelectedIndices.Count > 0)
 			{
 				ScmRepository folder = folders[listViewFolders.SelectedIndices[0]];
-				btnFetch.Visible = false;
+				btnFetch.Visible = folder is GitRepository;
 
-				btnChangeLog.Enabled = btnUpdate.Enabled = btnLog.Enabled = false;
-
-				if ((folder.Status == ScmRepositoryStatus.NeedUpdate) || (folder.Status == ScmRepositoryStatus.NeedUpdate_Modified))
-					btnChangeLog.Enabled = btnUpdate.Enabled = btnLog.Enabled = true;
-				else if ((folder.Status == ScmRepositoryStatus.UpToDate) || (folder.Status == ScmRepositoryStatus.UpToDate_Modified))
-					btnLog.Enabled = true;
-
-				if ((folder.Status == ScmRepositoryStatus.NeedUpdate_Modified) || (folder.Status == ScmRepositoryStatus.UpToDate_Modified))
-					btnCommit.Enabled = true;
-
-
-				if (folder is GitRepository)
-				{
-					btnFetch.Visible = true;
-					btnFetch.Enabled = btnLog.Enabled;
-				}
-
-				// Disable Log Button when GitUIPath not configured
-				if (folder is GitRepository && (Config.GitUIPath == null || !File.Exists(Config.GitUIPath)))
-				{
-					btnLog.Enabled = false;
-					btnFetch.Enabled = false;
-				}
-                // MW: Override log button enabling if TortoiseGit not installed or defined
-				if (folder.Serialize().ToUpper().StartsWith("GIT") && (Config.GitUIPath == null || !File.Exists(Config.GitUIPath)))
-				{
-					btnLog.Enabled = false;
-					btnFetch.Enabled = false;
-				}
-
-                deleteToolStripMenuItem.Enabled = true;
+			    deleteToolStripMenuItem.Enabled = true;
 				btnDelete.Enabled = true;
 				btnOpenFolder.Enabled = Directory.Exists (folder.Path) || File.Exists (folder.Path);
 
@@ -632,14 +602,9 @@ namespace pocorall.SCM_Notifier
 			}
 			else
 			{
-				btnChangeLog.Enabled = false;
-				btnUpdate.Enabled = false;
-				btnCommit.Enabled = false;
 				deleteToolStripMenuItem.Enabled = false;
 				btnDelete.Enabled = false;
 				btnOpenFolder.Enabled = false;
-				btnLog.Enabled = false;
-				btnFetch.Enabled = false;
 				btnFetch.Visible = false;
 
 				Text = Application.ProductName;
@@ -1484,5 +1449,16 @@ namespace pocorall.SCM_Notifier
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effect = DragDropEffects.Copy;
         }
-	}
+
+        private void btnVS_Click(object sender, EventArgs e)
+        {
+            if (listViewFolders.SelectedIndices.Count == 0)
+            {
+                return;
+            }
+
+            int selectedIndex = listViewFolders.SelectedIndices[0];
+            OpenVisualStudioSolutionFile(folders[selectedIndex].Path);
+        }
+    }
 }

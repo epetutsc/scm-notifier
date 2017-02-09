@@ -260,6 +260,8 @@
     <Content Include="Icons\Svn_FolderStatus_Unknown.png" />
     <Content Include="Icons\Svn_FolderStatus_UpToDate.png" />
     <Content Include="Icons\Svn_FolderStatus_UpToDate_Modified.png" />
+    <Content Include="Icons\vs15.ico" />
+    <Content Include="Icons\vs15.png" />
     <Content Include="License.txt" />
     <None Include="Resources\pictureBox1.Image.png" />
   </ItemGroup>

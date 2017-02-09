@@ -167,5 +167,19 @@ namespace pocorall.SCM_Notifier
 					break;
 				}
 		}
-	}
+
+        private static void OpenVisualStudioSolutionFile(string path)
+        {
+            var slnFiles = Directory.GetFiles(path, "*.sln", SearchOption.TopDirectoryOnly);
+            if (slnFiles.Length == 0)
+            {
+                slnFiles = Directory.GetFiles(path, "*.sln", SearchOption.AllDirectories);
+            }
+
+            if (slnFiles.Length > 0)
+            {
+                Process.Start(slnFiles[0]);
+            }
+        }
+    }
 }
